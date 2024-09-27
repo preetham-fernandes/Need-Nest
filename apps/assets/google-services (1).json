@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "254557740372",
+    "project_id": "voluntrack-ad4a8",
+    "storage_bucket": "voluntrack-ad4a8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:254557740372:android:34f3ee30ac7e986cf27cc1",
+        "android_client_info": {
+          "package_name": "com.example.apps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "254557740372-fho7h16fepmcf690nf076env226laj5h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxW5y5kr75NjccwLWF7lXQzsh1ynB20l8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "254557740372-fho7h16fepmcf690nf076env226laj5h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
