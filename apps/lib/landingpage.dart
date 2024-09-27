@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'userprofilepage.dart'; // Import the UserProfilePage
+import 'searchbarpage.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -16,30 +17,50 @@ class _LandingPageState extends State<LandingPage> {
       _currentIndex = index; // Update the current index
     });
 
-    if (index == 2) {
-      // Check if the profile button is tapped
+    if (index == 0) {
+      // Navigate back to home page (LandingPage)
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LandingPage()),
+      );
+    } else if (index == 1) {
+      // Navigate to profile page
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const UserProfilePage()),
       );
     }
-    // You can add additional navigation logic for other indices (Home, Search) here.
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Marcus'),
+        title: const InkWell(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: const Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Marcus', // Volunteer name
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold, // Super bold font
+                          fontSize: 22, // Larger font size for emphasis
+                          color: Colors.black87, // White color to match appBar
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: const Icon(Icons.notifications),
-            onPressed: () {},
-          ),
           IconButton(
             icon: const Icon(Icons.menu),
             onPressed: () {},
@@ -50,9 +71,40 @@ class _LandingPageState extends State<LandingPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Wide search bar with magnifying glass icon
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SearchBarPage()),
+                  );
+                },
+                child: IgnorePointer(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.search),
+                      hintText: 'Search...',
+                      filled: true,
+                      fillColor: Colors.grey[200],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 15),
+                    ),
+                    enabled: false,
+                  ),
+                ),
+              ),
+            ),
+
             // Profile section with CircleAvatar
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(2.50),
               child: Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -135,7 +187,6 @@ class _LandingPageState extends State<LandingPage> {
         onTap: _onItemTapped, // Set the onTap function
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),

@@ -41,13 +41,6 @@ class _CausesPageState extends State<CausesPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('What causes do you care about?'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            // Handle back navigation
-            Navigator.pop(context); // Navigate back
-          },
-        ),
         actions: [
           TextButton(
             onPressed: () {
