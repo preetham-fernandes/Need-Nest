@@ -1,8 +1,11 @@
 import { useState } from 'react';
-import { Bell, ChevronDown, Home, LayoutDashboard, Menu, Search, Settings, Users, Box } from 'lucide-react';
+import { Bell, ChevronDown, LayoutDashboard, Menu, Settings, Users, Box, AlertCircle} from 'lucide-react';
 import { Button } from "@/components/ui/button";
-import Inventory from "@/components/Dashboard/Inventory";
 import Header from "@/components/Dashboard/Header";
+import Inventory from "@/components/Dashboard/Inventory";
+import DashboardPage from "@/components/Dashboard/DashboardPage";  // Renamed to match JSX
+import Organizations from "@/components/Dashboard/Organizations";
+import CreateEvent from "@/components/Dashboard/CreateEvent";
 
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -37,19 +40,19 @@ export default function Dashboard() {
           </Button>
           <Button
             variant="ghost"
-            className={`w-full justify-start mb-2 ${activePage === 'users' ? 'bg-gray-200' : ''}`}
-            onClick={() => setActivePage('users')}
+            className={`w-full justify-start mb-2 ${activePage === 'organizations' ? 'bg-gray-200' : ''}`}  // Corrected the condition to 'organizations'
+            onClick={() => setActivePage('organizations')}
           >
             <Users className="mr-2 h-4 w-4" />
-            Users
+            Organizations
           </Button>
           <Button
             variant="ghost"
-            className={`w-full justify-start mb-2 ${activePage === 'settings' ? 'bg-gray-200' : ''}`}
-            onClick={() => setActivePage('settings')}
+            className={`w-full justify-start mb-2 ${activePage === 'createEvent' ? 'bg-gray-200' : ''}`}  // Corrected the condition to 'createEvent'
+            onClick={() => setActivePage('createEvent')}
           >
-            <Settings className="mr-2 h-4 w-4" />
-            Settings
+            <AlertCircle className="mr-2 h-4 w-4" />
+            Create Alert
           </Button>
         </nav>
       </aside>
@@ -58,6 +61,9 @@ export default function Dashboard() {
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header />
         {activePage === 'inventory' && <Inventory />}
+        {activePage === 'dashboard' && <DashboardPage />}
+        {activePage === 'organizations' && <Organizations />}
+        {activePage === 'createEvent' && <CreateEvent />}
         {/* You can add other components for different pages similarly */}
       </div>
     </div>
