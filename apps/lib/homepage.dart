@@ -1,5 +1,6 @@
+import 'package:apps/signup.dart';
 import 'package:flutter/material.dart';
-import 'signup.dart'; // Import the RegistrationPage file
+import 'login.dart'; // Import the RegistrationPage file
 
 class MyHomePage extends StatelessWidget {
   @override
@@ -51,6 +52,10 @@ class MyHomePage extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     // Handle "Log in" button press
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
                   },
                   child: Text(
                     'Already a member? Log in',
