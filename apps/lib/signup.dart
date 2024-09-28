@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // For date formatting
+import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
 import 'verificationpage.dart'; // Import your OTP page here
 import 'login.dart';
 
@@ -11,13 +12,59 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  // Controller for the Date of Birth field
   final TextEditingController _dobController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _mobileController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
     _dobController.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
+    _mobileController.dispose();
+    _passwordController.dispose();
     super.dispose();
+  }
+
+  Future<void> _signUp() async {
+    // Getting values from the controllers
+    String name = _nameController.text.trim();
+    String email = _emailController.text.trim();
+    String mobile = _mobileController.text.trim();
+    String dob = _dobController.text.trim();
+    String password = _passwordController.text.trim();
+
+    // Check if all fields are filled
+    if (name.isEmpty ||
+        email.isEmpty ||
+        mobile.isEmpty ||
+        dob.isEmpty ||
+        password.isEmpty) {
+      // Show an error message (use a snackbar or dialog)
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please fill all fields')),
+      );
+      return;
+    }
+
+    // Create a new user in Firestore
+    await FirebaseFirestore.instance.collection('Volunteer').add({
+      'name': name,
+      'email': email,
+      'mobile': mobile,
+      'dob': dob,
+      'password': password, // Ideally, you'd hash the password before saving
+    });
+
+    // Navigate to the VerificationCodePage on sign-up success
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const VerificationCodePage(),
+      ),
+    );
   }
 
   @override
@@ -26,12 +73,9 @@ class _SignupPageState extends State<SignupPage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: SingleChildScrollView(
-          // Wrap Column in SingleChildScrollView
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 40),
-            height: MediaQuery.of(context)
-                .size
-                .height, // Remove the -50 to avoid overflow
+            height: MediaQuery.of(context).size.height,
             width: double.infinity,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -56,6 +100,7 @@ class _SignupPageState extends State<SignupPage> {
                 Column(
                   children: <Widget>[
                     TextField(
+                      controller: _nameController,
                       decoration: InputDecoration(
                         hintText: "Full Name",
                         border: OutlineInputBorder(
@@ -69,6 +114,7 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                     const SizedBox(height: 20),
                     TextField(
+                      controller: _emailController,
                       decoration: InputDecoration(
                         hintText: "Email",
                         border: OutlineInputBorder(
@@ -82,6 +128,7 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                     const SizedBox(height: 20),
                     TextField(
+                      controller: _mobileController,
                       decoration: InputDecoration(
                         hintText: "Mobile Number",
                         border: OutlineInputBorder(
@@ -94,11 +141,10 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ),
                     const SizedBox(height: 20),
-
                     // Date of Birth Field with Calendar Picker
                     TextField(
-                      readOnly: true, // Make the TextField read-only
-                      controller: _dobController, // Date of Birth controller
+                      readOnly: true,
+                      controller: _dobController,
                       decoration: InputDecoration(
                         hintText: "Date Of Birth",
                         border: OutlineInputBorder(
@@ -107,33 +153,28 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                         fillColor: Colors.purple.withOpacity(0.1),
                         filled: true,
-                        prefixIcon:
-                            const Icon(Icons.calendar_today), // Calendar icon
+                        prefixIcon: const Icon(Icons.calendar_today),
                       ),
                       onTap: () async {
-                        // Open the date picker when tapped
                         DateTime? pickedDate = await showDatePicker(
                           context: context,
                           initialDate: DateTime.now(),
-                          firstDate: DateTime(1900), // Starting date
-                          lastDate: DateTime.now(), // End date (current date)
+                          firstDate: DateTime(1900),
+                          lastDate: DateTime.now(),
                         );
 
                         if (pickedDate != null) {
-                          // Format the picked date in dd-MM-yyyy
                           String formattedDate =
                               DateFormat('dd-MM-yyyy').format(pickedDate);
-
-                          // Set the formatted date to the TextField controller
                           setState(() {
                             _dobController.text = formattedDate;
                           });
                         }
                       },
                     ),
-
                     const SizedBox(height: 20),
                     TextField(
+                      controller: _passwordController,
                       decoration: InputDecoration(
                         hintText: "Password",
                         border: OutlineInputBorder(
@@ -165,15 +206,7 @@ class _SignupPageState extends State<SignupPage> {
                 Container(
                   padding: const EdgeInsets.only(top: 3, left: 3),
                   child: ElevatedButton(
-                    onPressed: () {
-                      // Navigate to VerificationCodePage on sign up button click
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const VerificationCodePage(),
-                        ), // Navigate to the OTP page
-                      );
-                    },
+                    onPressed: _signUp, // Call the sign-up function
                     child: const Text(
                       "Sign up",
                       style: TextStyle(fontSize: 20, color: Colors.white),
