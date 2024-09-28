@@ -14,9 +14,11 @@ function SignInWithGoogle() {
       if (user) {
         await setDoc(doc(db, "Users", user.uid), {
           email: user.email,
-          firstName: user.displayName,
+          name: "Smile Foundation",
           photo: user.photoURL,
-          lastName: "",
+          phone: "9874652314",
+          address: "Andheri, Mumbai",
+          type: "NGO",
         });
         toast.success("User logged in successfully", {
           position: "top-center",

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import logo from '../../assets/Logo.png';
 
 const Header = () => {
     const navigate = useNavigate(); // Initialize navigate
@@ -11,9 +12,9 @@ const Header = () => {
     };
 
     return (
-        <header className="bg-opacity-60 text-primary-foreground backdrop-blur-md"> {/* Use a backdrop-blur for better effect */}
-            <div className="container mx-auto px-4 py-6 flex justify-between items-center">
-                <h1 className="text-2xl font-bold">Voluntrack</h1>
+        <header className=" text-primary-foreground bg-opacity-60 backdrop-blur-md"> {/* Use a backdrop-blur for better effect */}
+            <div className="container mx-auto px-4 pt-3 flex justify-between items-center">
+            <img src={logo} alt="NeedNest Logo" className="w-52 h-auto mb-4" />
                 <nav className="ml-96">
                     <ul className="flex space-x-4">
                         <li><a href="#" className="hover:underline">Home</a></li>
@@ -23,7 +24,7 @@ const Header = () => {
                     </ul>
                 </nav>
                 {/* Attach the click event to navigate */}
-                <Button onClick={handleSignUpClick} className="bg-white text-primary hover:bg-gray-500">
+                <Button onClick={handleSignUpClick} className="bg-white text-[#063970] hover:bg-gray-500">
                     Login
                 </Button>
             </div>

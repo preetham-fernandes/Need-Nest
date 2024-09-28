@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bell, ChevronDown, Home, LayoutDashboard, Menu, Search, Settings, Users, Box } from 'lucide-react';
+import { Bell, ChevronDown, Menu } from 'lucide-react';
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -11,8 +11,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { auth } from '../../firebase/Firebase'; // import the auth object from your Firebase configuration
+import { signOut } from "firebase/auth"; // import the signOut method
 
 const Header = () => {
+  
+  const handleLogout = async () => {
+    try {
+      await signOut(auth); // Call signOut to log out the user
+      console.log("User logged out successfully");
+      // You can also redirect the user to the login page after logout
+      window.location.href = "/profile"; // Adjust the redirection path as per your routing
+    } catch (error) {
+      console.error("Error logging out: ", error);
+    }
+  };
+
   return (
     <div>
       {/* Header */}
@@ -46,7 +60,7 @@ const Header = () => {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>Profile</DropdownMenuItem>
                 <DropdownMenuItem>Settings</DropdownMenuItem>
-                <DropdownMenuItem>Logout</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

@@ -1,189 +1,324 @@
-import React from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import React, { useEffect, useState } from 'react';
+import { db } from '../../firebase/Firebase';
+import { collection, getDocs, addDoc, updateDoc, doc } from 'firebase/firestore';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const Inventory = () => {
+  const [resources, setResources] = useState([]);
+  const [inputValues, setInputValues] = useState({});
+  const [modalOpen, setModalOpen] = useState(false); // State to manage modal visibility
+  const [resourcesList, setResourcesList] = useState([ // State to track multiple resource inputs
+    { category: '', description: '', name: '', quantityAvailable: 0, resourceId: 0 }
+  ]);
+
+  useEffect(() => {
+    const fetchResources = async () => {
+      const resourcesCollection = collection(db, "Resources");
+      const resourceSnapshot = await getDocs(resourcesCollection);
+      const resourceList = resourceSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setResources(resourceList);
+    };
+
+    fetchResources();
+  }, []);
+
+  // Function to update resource quantity in Firestore
+const updateQuantity = async (id, amount) => {
+  try {
+    const resourceRef = doc(db, "Resources", id); // Get reference to the specific document
+    const resourceDoc = await getDocs(resourceRef); // Get the current data
+    const resourceData = resourceDoc.data();
+
+    // Update the quantity by adding/subtracting the amount
+    const newQuantity = resourceData.quantityAvailable + amount;
+
+    // Ensure quantity doesn't go below 0
+    const updatedQuantity = newQuantity < 0 ? 0 : newQuantity;
+
+    // Update the resource in Firebase
+    await updateDoc(resourceRef, { quantityAvailable: updatedQuantity });
+
+    // Optionally update the local state to reflect changes without needing to refetch
+    setResources(prevResources => 
+      prevResources.map(resource =>
+        resource.id === id
+          ? { ...resource, quantityAvailable: updatedQuantity }
+          : resource
+      )
+    );
+  } catch (error) {
+    console.error("Error updating resource quantity: ", error);
+  }
+};
+
+
+  const handleInputChange = (id, value) => {
+    setInputValues(prev => ({ ...prev, [id]: value }));
+  };
+
+  // const handleQuantityChange = (id, action) => {
+  //   const resource = resources.find(resource => resource.id === id);
+  //   const inputValue = parseInt(inputValues[id]) || 0;
+
+  //   if (action === 'add') {
+  //     updateQuantity(id, inputValue);
+  //   } else if (action === 'subtract') {
+  //     updateQuantity(id, -inputValue);
+  //   }
+
+  //   setInputValues(prev => ({ ...prev, [id]: '' }));
+  // };
+  const handleQuantityChange = async (id, action) => {
+    try {
+      const resource = resources.find(resource => resource.id === id);
+      const inputValue = parseInt(inputValues[id]) || 0;
+  
+      // Get the document reference for the specific resource
+      const resourceDocRef = doc(db, "Resources", id);
+  
+      if (action === 'add') {
+        // Update the quantity by adding the input value
+        await updateDoc(resourceDocRef, {
+          quantityAvailable: resource.quantityAvailable + inputValue
+        });
+      } else if (action === 'subtract') {
+        // Update the quantity by subtracting the input value
+        await updateDoc(resourceDocRef, {
+          quantityAvailable: resource.quantityAvailable - inputValue
+        });
+      }
+  
+      // Clear the input field after the update
+      setInputValues(prev => ({ ...prev, [id]: '' }));
+  
+      // Fetch the updated list of resources to reflect changes in the UI
+      const resourcesCollection = collection(db, "Resources");
+      const resourceSnapshot = await getDocs(resourcesCollection);
+      const resourceList = resourceSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setResources(resourceList);
+    } catch (error) {
+      console.error("Error updating resource quantity: ", error);
+    }
+  };
+  
+  
+
+  const handleNewResourceChange = (index, e) => {
+    const { name, value } = e.target;
+    setResourcesList(prev =>
+      prev.map((res, i) => (i === index ? { ...res, [name]: value } : res))
+    );
+  };
+
+  const handleAddResourceRow = () => {
+    setResourcesList(prev => [
+      ...prev,
+      { category: '', description: '', name: '', quantityAvailable: 0, resourceId: 0 }
+    ]);
+  };
+
+  const handleRemoveResourceRow = (index) => {
+    setResourcesList(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleAddResources = async () => {
+    try {
+      for (const resource of resourcesList) {
+        const { category, description, name, quantityAvailable, resourceId } = resource;
+        await addDoc(collection(db, "Resources"), {
+          category,
+          description,
+          name,
+          quantityAvailable: parseInt(quantityAvailable),
+          resourceId: parseInt(resourceId)
+        });
+      }
+
+      setResourcesList([{ category: '', description: '', name: '', quantityAvailable: 0, resourceId: 0 }]);
+      setModalOpen(false);
+    } catch (error) {
+      console.error("Error adding resources: ", error);
+    }
+  };
+
   return (
     <div>
-      {/* Main Content */}
+      {/* Button to Open Modal */}
       <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Donations</CardTitle>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  className="h-4 w-4 text-muted-foreground"
-                >
-                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                </svg>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold ">Rs. 45,231.89</div>
-                <p className="text-xs text-muted-foreground">
-                  +20.1% from last month
-                </p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Subscriptions</CardTitle>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  className="h-4 w-4 text-muted-foreground"
-                >
-                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                  <circle cx="9" cy="7" r="4" />
-                  <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-                </svg>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">+2350</div>
-                <p className="text-xs text-muted-foreground">
-                  +180.1% from last month
-                </p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Sales</CardTitle>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  className="h-4 w-4 text-muted-foreground"
-                >
-                  <rect width="20" height="14" x="2" y="5" rx="2" />
-                  <path d="M2 10h20" />
-                </svg>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">+12,234</div>
-                <p className="text-xs text-muted-foreground">
-                  +19% from last month
-                </p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Active Now</CardTitle>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  className="h-4 w-4 text-muted-foreground"
-                >
-                  <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                </svg>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">+573</div>
-                <p className="text-xs text-muted-foreground">
-                  +201 since last hour
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-          <div className="bg-white shadow-md rounded-lg overflow-hidden">
-            <table className="min-w-full leading-normal">
-              <thead>
-                <tr>
-                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    User
-                  </th>
-                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Role
-                  </th>
-                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Created at
-                  </th>
-                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Status
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 w-10 h-10">
-                        <img className="w-full h-full rounded-full" src="/placeholder.svg?height=40&width=40" alt="" />
-                      </div>
-                      <div className="ml-3">
-                        <p className="text-gray-900 whitespace-no-wrap">
-                          John Doe
-                        </p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    <p className="text-gray-900 whitespace-no-wrap">Admin</p>
-                  </td>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    <p className="text-gray-900 whitespace-no-wrap">
-                      Jan 21, 2020
-                    </p>
-                  </td>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                      <span aria-hidden className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                      <span className="relative">Active</span>
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 w-10 h-10">
-                        <img className="w-full h-full rounded-full" src="/placeholder.svg?height=40&width=40" alt="" />
-                      </div>
-                      <div className="ml-3">
-                        <p className="text-gray-900 whitespace-no-wrap">
-                          Jane Smith
-                        </p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    <p className="text-gray-900 whitespace-no-wrap">Editor</p>
-                  </td>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    <p className="text-gray-900 whitespace-no-wrap">
-                      Feb 15, 2020
-                    </p>
-                  </td>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    <span className="relative inline-block px-3 py-1 font-semibold text-orange-900 leading-tight">
-                      <span aria-hidden className="absolute inset-0 bg-orange-200 opacity-50 rounded-full"></span>
-                      <span className="relative">Suspended</span>
-                    </span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </main>
-    </div>
-  )
-}
+        <button
+          onClick={() => setModalOpen(true)}
+          className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Add Resources
+        </button>
 
-export default Inventory
+        {/* Modal for Adding Resources */}
+        {modalOpen && (
+          <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-50 p-4">
+            <div className="bg-white p-6 rounded shadow-lg max-w-xl w-full">
+              <h2 className="text-lg font-semibold mb-4">Add New Resources</h2>
+
+              {/* Dynamic Resource Fields */}
+              {resourcesList.map((resource, index) => (
+                <div key={index} className="mb-4">
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Name"
+                    value={resource.name}
+                    onChange={(e) => handleNewResourceChange(index, e)}
+                    className="mb-2 w-full border border-gray-300 rounded px-2"
+                  />
+                  <input
+                    type="text"
+                    name="category"
+                    placeholder="Category"
+                    value={resource.category}
+                    onChange={(e) => handleNewResourceChange(index, e)}
+                    className="mb-2 w-full border border-gray-300 rounded px-2"
+                  />
+                  <input
+                    type="text"
+                    name="description"
+                    placeholder="Description"
+                    value={resource.description}
+                    onChange={(e) => handleNewResourceChange(index, e)}
+                    className="mb-2 w-full border border-gray-300 rounded px-2"
+                  />
+                  <input
+                    type="number"
+                    name="quantityAvailable"
+                    placeholder="Quantity Available"
+                    value={resource.quantityAvailable}
+                    onChange={(e) => handleNewResourceChange(index, e)}
+                    className="mb-2 w-full border border-gray-300 rounded px-2"
+                  />
+                  <input
+                    type="number"
+                    name="resourceId"
+                    placeholder="Resource ID"
+                    value={resource.resourceId}
+                    onChange={(e) => handleNewResourceChange(index, e)}
+                    className="mb-2 w-full border border-gray-300 rounded px-2"
+                  />
+
+                  {/* Remove Button */}
+                  {resourcesList.length > 1 && (
+                    <button
+                      onClick={() => handleRemoveResourceRow(index)}
+                      className="bg-red-500 text-white rounded px-2 py-1 ml-2"
+                    >
+                      Remove
+                    </button>
+                  )}
+                </div>
+              ))}
+
+              {/* Add More Resource Button */}
+              <button
+                onClick={handleAddResourceRow}
+                className="mb-4 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+              >
+                Add More Resource
+              </button>
+
+              <div className="flex justify-between mt-4">
+                <button
+                  onClick={handleAddResources}
+                  className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                >
+                  Add All Resources
+                </button>
+                <button
+                  onClick={() => setModalOpen(false)}
+                  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Table for Managing Resources */}
+        <div className="bg-white shadow-md rounded-lg overflow-hidden">
+        <div className="max-h-[80vh] overflow-y-auto">
+          <table className="min-w-full leading-normal">
+            <thead>
+              <tr>
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Resource Id
+                </th>
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Name
+                </th>
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Quantity
+                </th>
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Category
+                </th>
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Description
+                </th>
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {resources.map(resource => (
+                <tr key={resource.id}>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    {resource.resourceId}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    {resource.name}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    {resource.quantityAvailable}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    {resource.category}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    {resource.description}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    <input
+                      type="number"
+                      value={inputValues[resource.id] || ''}
+                      onChange={e => handleInputChange(resource.id, e.target.value)}
+                      className="border rounded w-16 px-2 mr-2"
+                    />
+                    <button
+                      onClick={() => handleQuantityChange(resource.id, 'add')}
+                      className="bg-green-500 text-white rounded px-2 py-1"
+                    >
+                      Add
+                    </button>
+                    <button
+                      onClick={() => handleQuantityChange(resource.id, 'subtract')}
+                      className="bg-red-500 text-white rounded px-2 py-1 ml-2"
+                    >
+                      Subtract
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        </div>
+      </main>
+    </div>
+  );
+};
+
+export default Inventory;
