@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'userprofilepage.dart'; // Import the UserProfilePage
 import 'searchbarpage.dart';
+import 'userlistpage.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -28,6 +29,12 @@ class _LandingPageState extends State<LandingPage> {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const UserProfilePage()),
+      );
+    } else if (index == 2) {
+      // Navigate to community chat page
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const UserListPage()),
       );
     }
   }
@@ -61,6 +68,10 @@ class _LandingPageState extends State<LandingPage> {
           ),
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.notification_important),
+            onPressed: () {},
+          ),
           IconButton(
             icon: const Icon(Icons.menu),
             onPressed: () {},
@@ -188,6 +199,8 @@ class _LandingPageState extends State<LandingPage> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.chat_bubble), label: 'Community'),
         ],
       ),
     );
