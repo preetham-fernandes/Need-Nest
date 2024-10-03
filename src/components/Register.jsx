@@ -7,8 +7,8 @@ import { toast } from "react-toastify";
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [fname, setFname] = useState("");
-  const [lname, setLname] = useState("");
+  const [organizationName, setOrganizationName] = useState("");
+  const [organizationType, setOrganizationType] = useState("");
   const [loading, setLoading] = useState(false); // Loading state
 
   const handleRegister = async (e) => {
@@ -21,8 +21,8 @@ function Register() {
       if (user) {
         await setDoc(doc(db, "Users", user.uid), {
           email: user.email,
-          firstName: fname,
-          lastName: lname,
+          name: organizationName, // Save organization name as 'name'
+          type: organizationType, // Save organization type as 'type'
           photo: ""
         });
       }
@@ -50,31 +50,32 @@ function Register() {
         <h3 className="text-2xl font-semibold mb-6 text-center">Sign Up</h3>
 
         <div className="mb-4">
-          <label htmlFor="fname" className="block text-sm font-medium text-gray-700">
-            First Name
+          <label htmlFor="organizationName" className="block text-sm font-medium text-gray-700">
+            Organization Name
           </label>
           <input
             type="text"
-            id="fname"
+            id="organizationName"
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="First name"
-            value={fname}
-            onChange={(e) => setFname(e.target.value)}
+            placeholder="Organization name"
+            value={organizationName}
+            onChange={(e) => setOrganizationName(e.target.value)}
             required
           />
         </div>
 
         <div className="mb-4">
-          <label htmlFor="lname" className="block text-sm font-medium text-gray-700">
-            Last Name
+          <label htmlFor="organizationType" className="block text-sm font-medium text-gray-700">
+            Organization Type
           </label>
           <input
             type="text"
-            id="lname"
+            id="organizationType"
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Last name"
-            value={lname}
-            onChange={(e) => setLname(e.target.value)}
+            placeholder="Organization type"
+            value={organizationType}
+            onChange={(e) => setOrganizationType(e.target.value)}
+            required
           />
         </div>
 

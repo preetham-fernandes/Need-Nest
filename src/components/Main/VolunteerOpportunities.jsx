@@ -37,7 +37,7 @@ export default function VolunteerOpportunities() {
               <CardContent>
                 <p className="mb-2"><strong>Location:</strong> {opportunity.location}</p>
                 <p className="mb-4"><strong>Date:</strong> {opportunity.date}</p>
-                <Button>Sign Up</Button>
+                <Button className="bg-[#063970]">Sign Up</Button>
               </CardContent>
             </Card>
           ))}

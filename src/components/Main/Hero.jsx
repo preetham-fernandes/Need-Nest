@@ -11,5 +11,6 @@ export default function Hero() {
         <Button size="lg">Join Us</Button>
       </div>
     </section>
+    
   );
 }
