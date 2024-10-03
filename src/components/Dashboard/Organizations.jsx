@@ -30,8 +30,8 @@ const Organizations = () => {
     // Get the logged-in user's info
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setLoggedInUser(user.displayName || user.email); // Use displayName or email
-      } else {
+        setLoggedInUser(user.displayName || user.email); // Use displayName3or e4ail
+   } else {
         setLoggedInUser(null);
       }
     });
@@ -89,29 +89,29 @@ const Organizations = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-xl font-bold mb-4">Organization Details</h1>
+    <div className="container mx-auto">
+      <h1 className="text-3xl font-bold mb-4 pt-3">Organization Details</h1>
       <div className="bg-white shadow-md rounded-lg overflow-hidden">
         <div className="max-h-[80vh] overflow-y-auto">
           <table className="min-w-full leading-normal">
             <thead>
               <tr>
-                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="px-5 py-3 border-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-black uppercase tracking-wider">
                   Name
                 </th>
-                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="px-5 py-3 border-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-black uppercase tracking-wider">
                   Type
                 </th>
-                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="px-5 py-3 border-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-black uppercase tracking-wider">
                   Address
                 </th>
-                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="px-5 py-3 border-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-black uppercase tracking-wider">
                   Phone
                 </th>
-                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="px-5 py-3 border-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-black uppercase tracking-wider">
                   Email
                 </th>
-                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="px-5 py-3 border-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-black uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
@@ -119,12 +119,12 @@ const Organizations = () => {
             <tbody>
               {organizations.map((org) => (
                 <tr key={org.id}>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-base">{org.name}</td>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-base">{org.type}</td>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-base">{org.address}</td>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-base">{org.phone}</td>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-base">{org.email}</td>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-base">
+                  <td className="px-5 py-4 border-2 border-gray-200 bg-white text-left text-base">{org.name}</td>
+                  <td className="px-5 py-4 border-2 border-gray-200 bg-white text-left text-base">{org.type}</td>
+                  <td className="px-5 py-4 border-2 border-gray-200 bg-white text-left text-base">{org.address}</td>
+                  <td className="px-5 py-4 border-2 border-gray-200 bg-white text-left text-base">{org.phone}</td>
+                  <td className="px-5 py-4 border-2 border-gray-200 bg-white text-left text-base">{org.email}</td>
+                  <td className="px-5 py-4 border-2 border-gray-200 bg-white text-left text-base">
                     <button
                       onClick={() => handleRequest(org.id)}
                       className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"

@@ -12,7 +12,7 @@ import logo from '../../assets/Logo.png';
 
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activePage, setActivePage] = useState('dashboard'); // 'inventory' is set as active by default
+  const [activePage, setActivePage] = useState('dashboard'); 
 
   return (
     <div className="flex h-screen bg-gray-100">

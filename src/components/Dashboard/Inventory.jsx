@@ -153,7 +153,7 @@ const updateQuantity = async (id, amount) => {
       <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-4">
         <button
           onClick={() => setModalOpen(true)}
-          className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          className="mb-4 px-4 py-2 bg-blue-600 text-white text-lg rounded hover:bg-blue-500"
         >
           Add Resources
         </button>
@@ -173,7 +173,7 @@ const updateQuantity = async (id, amount) => {
                     placeholder="Name"
                     value={resource.name}
                     onChange={(e) => handleNewResourceChange(index, e)}
-                    className="mb-2 w-full border border-gray-300 rounded px-2"
+                    className="mb-2 w-full border border-gray-300 rounded px-2 py-2"
                   />
                   <input
                     type="text"
@@ -181,7 +181,7 @@ const updateQuantity = async (id, amount) => {
                     placeholder="Category"
                     value={resource.category}
                     onChange={(e) => handleNewResourceChange(index, e)}
-                    className="mb-2 w-full border border-gray-300 rounded px-2"
+                    className="mb-2 w-full border border-gray-300 rounded px-2 py-2"
                   />
                   <input
                     type="text"
@@ -189,23 +189,23 @@ const updateQuantity = async (id, amount) => {
                     placeholder="Description"
                     value={resource.description}
                     onChange={(e) => handleNewResourceChange(index, e)}
-                    className="mb-2 w-full border border-gray-300 rounded px-2"
+                    className="mb-2 w-full border border-gray-300 rounded px-2 py-2"
                   />
                   <input
                     type="number"
                     name="quantityAvailable"
                     placeholder="Quantity Available"
-                    value={resource.quantityAvailable}
+                    value={resource.quantityAvailable || ''} // Display empty string if value is 0 or undefined
                     onChange={(e) => handleNewResourceChange(index, e)}
-                    className="mb-2 w-full border border-gray-300 rounded px-2"
+                    className="mb-2 w-full border border-gray-300 rounded px-2 py-2"
                   />
                   <input
                     type="number"
                     name="resourceId"
                     placeholder="Resource ID"
-                    value={resource.resourceId}
+                    value={resource.resourceId || ''} // Display empty string if value is 0 or undefined
                     onChange={(e) => handleNewResourceChange(index, e)}
-                    className="mb-2 w-full border border-gray-300 rounded px-2"
+                    className="mb-2 w-full border border-gray-300 rounded px-2 py-2"
                   />
 
                   {/* Remove Button */}
@@ -252,22 +252,22 @@ const updateQuantity = async (id, amount) => {
           <table className="min-w-full leading-normal">
             <thead>
               <tr>
-                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="px-5 py-3 border-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-black uppercase tracking-wider">
                   Resource Id
                 </th>
-                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="px-5 py-3 border-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-black uppercase tracking-wider">
                   Name
                 </th>
-                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="px-5 py-3 border-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-black uppercase tracking-wider">
                   Quantity
                 </th>
-                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="px-5 py-3 border-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-black uppercase tracking-wider">
                   Category
                 </th>
-                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="px-5 py-3 border-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-black uppercase tracking-wider">
                   Description
                 </th>
-                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <th className="px-5 py-3 border-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-black uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
@@ -275,37 +275,37 @@ const updateQuantity = async (id, amount) => {
             <tbody>
               {resources.map(resource => (
                 <tr key={resource.id}>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                  <td className="px-5 py-3 border-2 border-gray-200 bg-white text-left text-base">
                     {resource.resourceId}
                   </td>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                  <td className="px-5 py-3 border-2 border-gray-200 bg-white  text-left text-base">
                     {resource.name}
                   </td>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                  <td className="px-5 py-3 border-2 border-gray-200 bg-white  text-left text-base">
                     {resource.quantityAvailable}
                   </td>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                  <td className="px-5 py-3 border-2 border-gray-200 bg-white  text-left text-base">
                     {resource.category}
                   </td>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                  <td className="px-5 py-3 border-2 border-gray-200 bg-white  text-left text-base">
                     {resource.description}
                   </td>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                  <td className="px-5 py-3 border-2 border-gray-200 bg-white  text-left text-base">
                     <input
                       type="number"
                       value={inputValues[resource.id] || ''}
                       onChange={e => handleInputChange(resource.id, e.target.value)}
-                      className="border rounded w-16 px-2 mr-2"
+                      className="border rounded w-16 px-5 py-3 mr-2"
                     />
                     <button
                       onClick={() => handleQuantityChange(resource.id, 'add')}
-                      className="bg-green-500 text-white rounded px-2 py-1"
+                      className="bg-green-500 text-white rounded p-3"
                     >
                       Add
                     </button>
                     <button
                       onClick={() => handleQuantityChange(resource.id, 'subtract')}
-                      className="bg-red-500 text-white rounded px-2 py-1 ml-2"
+                      className="bg-red-500 text-white rounded p-3 ml-3"
                     >
                       Subtract
                     </button>

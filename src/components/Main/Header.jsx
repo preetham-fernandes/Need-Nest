@@ -16,12 +16,12 @@ const Header = () => {
             <div className="container mx-auto px-4 pt-3 flex justify-between items-center">
             <img src={logo} alt="NeedNest Logo" className="w-52 h-auto mb-4" />
                 <nav className="ml-96">
-                    <ul className="flex space-x-4">
+                    {/* <ul className="flex space-x-4">
                         <li><a href="#" className="hover:underline">Home</a></li>
                         <li><a href="#" className="hover:underline">Opportunities</a></li>
                         <li><a href="#" className="hover:underline">About</a></li>
                         <li><a href="#" className="hover:underline">Contact</a></li>
-                    </ul>
+                    </ul> */}
                 </nav>
                 {/* Attach the click event to navigate */}
                 <Button onClick={handleSignUpClick} className="bg-white text-[#063970] hover:bg-gray-500">
