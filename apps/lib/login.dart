@@ -2,10 +2,9 @@ import 'package:apps/landingpage.dart';
 import 'package:apps/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Firestore package
-import 'carepage.dart'; // Your CarePage
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -98,8 +97,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _header() {
-    return Column(
-      children: const [
+    return const Column(
+      children: [
         Text(
           "Sign in",
           style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
@@ -174,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SignupPage()),
+              MaterialPageRoute(builder: (context) => const SignupPage()),
             );
           },
           child: const Text(

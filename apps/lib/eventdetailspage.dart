@@ -12,7 +12,7 @@ class EventDetailsPage extends StatelessWidget {
 // New parameter for event time
 
   const EventDetailsPage({
-    Key? key,
+    super.key,
     required this.title,
     required this.text,
     required this.imageUrl,
@@ -20,7 +20,7 @@ class EventDetailsPage extends StatelessWidget {
     required this.url,
     required this.address,
     required this.compensation,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -56,10 +56,9 @@ class EventDetailsPage extends StatelessWidget {
                     style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 16),
-                  Text(
+                  const Text(
                     'Location:',
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
                   Image.network(mapImage),
@@ -76,10 +75,9 @@ class EventDetailsPage extends StatelessWidget {
                     style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 16),
-                  Text(
+                  const Text(
                     'Compensation:',
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
                   Text(
@@ -123,7 +121,7 @@ class EventDetailsPage extends StatelessWidget {
             children: [
               Text('Event: $title'),
               Text('Address: $address'),
-              Text('Location:'),
+              const Text('Location:'),
               Image.network(mapImage), // Show the map image as well
             ],
           ),

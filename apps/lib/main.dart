@@ -16,7 +16,7 @@ import 'eventdetailspage.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: FirebaseOptions(
+    options: const FirebaseOptions(
       apiKey: "AIzaSyCEfMaRKOG0Vb4PdWBayHX4qz_JxTPQL9Q",
       authDomain: "voluntrack-ad4a8.firebase.com",
       projectId: "voluntrack-ad4a8",
@@ -29,6 +29,8 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,7 +39,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LandingPage(), // Set the registration screen as home
+      home: MyHomePage(), // Set the registration screen as home
     );
   }
 }

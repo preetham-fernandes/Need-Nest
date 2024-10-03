@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'login.dart'; // Import the RegistrationPage file
 
 class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +22,7 @@ class MyHomePage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
+                const Text(
                   'Alone we can do so little.\nTogether we can do so much.',
                   style: TextStyle(
                     fontSize: 24,
@@ -37,27 +39,29 @@ class MyHomePage extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     // Navigate to RegistrationPage
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SignupPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const SignupPage()),
                     );
                   },
-                  child: Text('Create Account'),
+                  child: const Text('Create Account'),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextButton(
                   onPressed: () {
                     // Handle "Log in" button press
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const LoginPage()),
                     );
                   },
-                  child: Text(
+                  child: const Text(
                     'Already a member? Log in',
                     style: TextStyle(
                         color: Colors.white), // Change button text color

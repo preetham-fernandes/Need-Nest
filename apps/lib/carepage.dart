@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'landingpage.dart'; // Import the LandingPage
 
 class CausesPage extends StatefulWidget {
-  const CausesPage({Key? key}) : super(key: key);
+  const CausesPage({super.key});
 
   @override
   _CausesPageState createState() => _CausesPageState();
@@ -34,7 +34,7 @@ class _CausesPageState extends State<CausesPage> {
     "Women",
   ];
 
-  List<bool> _selectedCauses = List.filled(23, false);
+  final List<bool> _selectedCauses = List.filled(23, false);
 
   @override
   Widget build(BuildContext context) {

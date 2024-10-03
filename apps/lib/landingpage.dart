@@ -6,7 +6,7 @@ import 'userlistpage.dart';
 import 'eventdetailspage.dart';
 
 class LandingPage extends StatefulWidget {
-  const LandingPage({Key? key}) : super(key: key);
+  const LandingPage({super.key});
 
   @override
   _LandingPageState createState() => _LandingPageState();
@@ -66,7 +66,7 @@ class _LandingPageState extends State<LandingPage> {
       appBar: AppBar(
         title: InkWell(
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.0),
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Row(
               children: [
                 Expanded(
@@ -144,7 +144,7 @@ class _LandingPageState extends State<LandingPage> {
                 ),
                 child: Container(
                   decoration: BoxDecoration(
-                    image: DecorationImage(
+                    image: const DecorationImage(
                       image:
                           AssetImage('../assets/kids.jpg'), // Background image
                       fit: BoxFit.cover,
@@ -177,7 +177,7 @@ class _LandingPageState extends State<LandingPage> {
                             ElevatedButton(
                               onPressed: () {},
                               style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     horizontal: 30, vertical: 12),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
@@ -187,7 +187,7 @@ class _LandingPageState extends State<LandingPage> {
                               ),
                               child: Ink(
                                 decoration: BoxDecoration(
-                                  gradient: LinearGradient(
+                                  gradient: const LinearGradient(
                                     colors: [
                                       Colors.blueAccent,
                                       Colors.lightBlueAccent,
@@ -198,7 +198,7 @@ class _LandingPageState extends State<LandingPage> {
                                   borderRadius: BorderRadius.circular(30),
                                 ),
                                 child: Container(
-                                  constraints: BoxConstraints(
+                                  constraints: const BoxConstraints(
                                       maxWidth: 150,
                                       minHeight: 50), // Set width and height
                                   alignment: Alignment.center,

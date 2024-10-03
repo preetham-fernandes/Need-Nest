@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'carepage.dart'; // Ensure CausesPage is imported
 
 class VerificationCodePage extends StatefulWidget {
-  const VerificationCodePage({Key? key}) : super(key: key);
+  const VerificationCodePage({super.key});
 
   @override
   _VerificationCodePageState createState() => _VerificationCodePageState();
