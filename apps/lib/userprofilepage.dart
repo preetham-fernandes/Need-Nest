@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'editprofile.dart'; // Make sure this import is correct
 
 class UserProfilePage extends StatelessWidget {
-  const UserProfilePage({Key? key}) : super(key: key);
+  const UserProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,8 @@ class UserProfilePage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => EditProfilePage()),
+                                  builder: (context) =>
+                                      const EditProfilePage()),
                             );
                           },
                           child: const Text('Edit Profile'),

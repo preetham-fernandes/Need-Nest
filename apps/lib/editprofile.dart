@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class EditProfilePage extends StatelessWidget {
-  const EditProfilePage({Key? key}) : super(key: key);
+  const EditProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,14 +14,14 @@ class EditProfilePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
-              decoration: const InputDecoration(labelText: 'Mobile Number'),
+            const TextField(
+              decoration: InputDecoration(labelText: 'Mobile Number'),
             ),
-            TextField(
-              decoration: const InputDecoration(labelText: 'Email'),
+            const TextField(
+              decoration: InputDecoration(labelText: 'Email'),
             ),
-            TextField(
-              decoration: const InputDecoration(labelText: 'Password'),
+            const TextField(
+              decoration: InputDecoration(labelText: 'Password'),
               obscureText: true,
             ),
             const SizedBox(height: 20),

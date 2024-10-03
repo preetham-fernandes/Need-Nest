@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'chatpage.dart';
 
 class UserListPage extends StatelessWidget {
-  const UserListPage({Key? key}) : super(key: key);
+  const UserListPage({super.key});
 
   @override
   Widget build(BuildContext context) {

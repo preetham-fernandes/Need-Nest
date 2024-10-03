@@ -1,7 +1,61 @@
+import 'package:apps/landingpage.dart';
+import 'package:apps/signup.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; // Firestore package
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  String _errorMessage = '';
+
+  // Function to handle login by checking credentials in Firestore
+  Future<void> _login(BuildContext context) async {
+    String inputEmail = _emailController.text.trim();
+    String inputPassword = _passwordController.text.trim();
+
+    try {
+      // Fetch user data from Firestore by email
+      QuerySnapshot querySnapshot = await _firestore
+          .collection('Volunteer') // Your Firestore collection
+          .where('email', isEqualTo: inputEmail)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        var userDoc = querySnapshot.docs.first;
+        var storedPassword = userDoc['password'];
+
+        // Compare the inputted password with the stored password
+        if (storedPassword == inputPassword) {
+          // Navigate to CarePage if password is correct
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const LandingPage()),
+          );
+        } else {
+          setState(() {
+            _errorMessage = 'Incorrect password. Please try again.';
+          });
+        }
+      } else {
+        setState(() {
+          _errorMessage = 'No account found with that email.';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'An error occurred. Please try again later.';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +71,17 @@ class LoginPage extends StatelessWidget {
               _header(),
               const SizedBox(height: 20),
               _inputField(
-                  "Email or Mobile Number", Icons.email_outlined, false),
+                  "Email", Icons.email_outlined, false, _emailController),
               const SizedBox(height: 10),
-              _inputField("Password", Icons.lock_outline, true),
+              _inputField(
+                  "Password", Icons.lock_outline, true, _passwordController),
+              const SizedBox(height: 10),
+              _errorMessage.isNotEmpty
+                  ? Text(
+                      _errorMessage,
+                      style: const TextStyle(color: Colors.red),
+                    )
+                  : const SizedBox.shrink(),
               const SizedBox(height: 20),
               _loginButton(context),
               const SizedBox(height: 10),
@@ -35,8 +97,8 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget _header() {
-    return Column(
-      children: const [
+    return const Column(
+      children: [
         Text(
           "Sign in",
           style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
@@ -47,8 +109,10 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget _inputField(String hintText, IconData icon, bool isObscure) {
+  Widget _inputField(String hintText, IconData icon, bool isObscure,
+      TextEditingController controller) {
     return TextField(
+      controller: controller,
       decoration: InputDecoration(
         hintText: hintText,
         border: OutlineInputBorder(
@@ -66,7 +130,7 @@ class LoginPage extends StatelessWidget {
   Widget _loginButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        // Handle login logic here
+        _login(context); // Call login function
       },
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
@@ -107,7 +171,10 @@ class LoginPage extends StatelessWidget {
         const Text("Don't have an account? "),
         TextButton(
           onPressed: () {
-            // Handle sign-up navigation
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SignupPage()),
+            );
           },
           child: const Text(
             "Sign Up",

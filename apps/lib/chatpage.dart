@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ChatPage extends StatelessWidget {
   final String userName;
 
-  const ChatPage({Key? key, required this.userName}) : super(key: key);
+  const ChatPage({super.key, required this.userName});
 
   @override
   Widget build(BuildContext context) {

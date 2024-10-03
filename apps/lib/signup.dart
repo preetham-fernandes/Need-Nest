@@ -206,15 +206,31 @@ class _SignupPageState extends State<SignupPage> {
                 Container(
                   padding: const EdgeInsets.only(top: 3, left: 3),
                   child: ElevatedButton(
+<<<<<<< HEAD
+                    onPressed: () {
+                      // Navigate to VerificationCodePage on sign up button click
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const VerificationCodePage(),
+                        ), // Navigate to the OTP page
+                      );
+                    },
+=======
                     onPressed: _signUp, // Call the sign-up function
                     child: const Text(
                       "Sign up",
                       style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
+>>>>>>> 3dad3d2fecd2c11d1037a52ccaaa866951d69941
                     style: ElevatedButton.styleFrom(
                       shape: const StadiumBorder(),
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       backgroundColor: Colors.purple,
+                    ),
+                    child: const Text(
+                      "Sign up",
+                      style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
                   ),
                 ),
@@ -245,8 +261,7 @@ class _SignupPageState extends State<SignupPage> {
                           width: 30.0,
                           decoration: const BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage(
-                                  'assets/images/login_signup/google.png'),
+                              image: AssetImage('../assets/kids.jpg'),
                               fit: BoxFit.cover,
                             ),
                             shape: BoxShape.circle,
