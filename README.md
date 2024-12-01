@@ -36,7 +36,7 @@ App: Dart, Flutter
 Website: React.js, Tailwind.css, Flowbite
 Database: Firebase 
 
-### 🔵Website Preview!
+### 🔵Website Preview‼️
 
 ### 🔷Mainpage
 ![Screenshot 2024-12-01 203819](https://github.com/user-attachments/assets/4d59246a-08f3-4a98-a71c-06561987d86e)
@@ -63,4 +63,24 @@ Database: Firebase
 
 ### 🔷Shared & Requested Resources 
 ![Screenshot 2024-12-01 204627](https://github.com/user-attachments/assets/d7614a3c-fff9-4711-97be-5d2c75674246)
+
+### 🔵App Preview‼️
+
+### 🔷Landing Page
+![WhatsApp Image 2024-12-02 at 00 16 35_ee4df081](https://github.com/user-attachments/assets/118b8ab7-e3e9-4062-b283-f5274a2321aa)   ![WhatsApp Image 2024-12-02 at 00 16 37_26415915](https://github.com/user-attachments/assets/6c8bcf3c-6620-4369-ba93-1425553dab4d)
+
+### 🔷Signup Page
+![WhatsApp Image 2024-12-02 at 00 16 36_15ab84ef](https://github.com/user-attachments/assets/5e33ff60-31b2-47ca-b48d-1c86cc10f419)    ![WhatsApp Image 2024-12-02 at 00 16 36_f3a70302](https://github.com/user-attachments/assets/d7bc32e2-1df3-4520-8d30-f0b2c5e99191)    
+![WhatsApp Image 2024-12-02 at 00 16 36_07738d7a](https://github.com/user-attachments/assets/9c8602ac-58f5-4712-af4f-4958f31a1c76)
+
+### 🔷Suggestions of Upcoming Events and Volunteering opportunities 
+![WhatsApp Image 2024-12-02 at 00 16 38_a83deab9](https://github.com/user-attachments/assets/225aca6f-ca6a-456e-8288-a00c4d0d1919)   ![WhatsApp Image 2024-12-02 at 00 16 37_a5b76532](https://github.com/user-attachments/assets/bb7fb605-5d4e-4863-b6f4-39b288e4a040) 
+
+### 🔷Crisis Details, get personalized notifications
+![WhatsApp Image 2024-12-02 at 00 16 38_4f434132](https://github.com/user-attachments/assets/d360d2af-d403-47f4-bc2d-dd1e1162a2ed)    ![WhatsApp Image 2024-12-02 at 00 16 39_b0be0882](https://github.com/user-attachments/assets/aedc8c4f-0429-4ffc-a262-89df59c76d9f)
+
+### 🔷Volunteer Community
+![WhatsApp Image 2024-12-02 at 00 16 39_82c848ff](https://github.com/user-attachments/assets/04e113d7-9c26-4ce9-b77e-79b86e5d2219)    ![WhatsApp Image 2024-12-02 at 00 16 40_4e155232](https://github.com/user-attachments/assets/89b75dc7-0189-462a-9dab-c6d0aadd2378)
+
+![WhatsApp Image 2024-12-02 at 00 16 40_f0f92dd2](https://github.com/user-attachments/assets/5f27503d-c0fe-4e61-ae5c-f209068ba0ec)
 
